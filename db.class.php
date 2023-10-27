@@ -55,6 +55,32 @@ class DB
             $dados['telefone'],
         ]);
     }
+
+    public function destroy($nome_tabela, $id){
+        
+        $conn = $this->conn();
+        $sql = "DELETE FROM $nome_tabela where id = ?";
+
+        $st = $conn->prepare($sql);
+        $st->execute([$id]);
+
+    }
+
+    public function search($nome_tabela, $dados){
+        
+        //var_dump($dados);
+        //exit;
+        $campo = $dados['tipo'];
+        $valor = $dados['valor'];
+
+        $conn = $this->conn();
+        $sql = "SELECT * FROM $nome_tabela where $campo LIKE ?";
+
+        $st = $conn->prepare($sql);
+        $st->execute(["%$valor%"]);
+
+        return $st->fetchAll(PDO::FETCH_CLASS);
+    }
 }
 
 ?>

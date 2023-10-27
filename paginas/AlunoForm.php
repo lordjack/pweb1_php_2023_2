@@ -1,3 +1,6 @@
+<?php
+ include '../db.class.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +9,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<?php
+  $db = new DB();
+  $db->conn();
+
+  if($_POST){
+    $dados = $db->insert("aluno",$_POST);
+    echo "<h4>Registro Salvo com sucesso!</h4>";
+    //var_dump($_POST);
+  }
+
+?>
 <body>
-    <form action="" method="post">
+
+    <h3>Formulário Aluno</h3>
+
+    <form action="AlunoForm.php" method="post">
     
-    <label for="nome">Nome</label><br>
-    <input type="text" name="nome"><br>
+        <label for="nome">Nome</label><br>
+        <input type="text" name="nome"><br>
 
-    <label for="cpf">CPF</label><br>
-    <input type="text" name="cpf"><br>
+        <label for="cpf">CPF</label><br>
+        <input type="text" name="cpf"><br>
 
-    <label for="telefone">Telefone</label><br>
-    <input type="text" name="telefone"><br>
+        <label for="telefone">Telefone</label><br>
+        <input type="text" name="telefone"><br>
 
-    <button type="submit">Salvar</button>
+        <button type="submit">Salvar</button>
+        <a href="AlunoList.php"> Voltar </a>
 
     </form>
 </body>
