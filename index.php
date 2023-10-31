@@ -15,50 +15,12 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-        $db = new DB();
-        $db->conn();
+  <h3>Bem vindo ao sistema academico</h3>
+  <a href="paginas/AlunoList.php">Aluno</a><br>
 
-        $dados = $db->select("aluno");
-
-        // <input type="text" name="nome" />
-        $dadosAluno = [
-            'nome'=> "Jackson",
-            'cpf'=>"55500055599",
-            'telefone'=>"49 8800-5500",
-        ];
-
-        // $db->insert("aluno", $dadosAluno);
-
-        //var_dump($dados);
-    ?>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">ID</th>
-      <th scope="col">Nome</th>
-      <th scope="col">CPF</th>
-      <th scope="col">Telefone</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php
-        foreach($dados as $item){
-            echo "<tr>";
-            echo "<th scope='row'>$item->id</th>";
-            echo "<td>$item->nome</td>";
-            echo "<td>$item->cpf</td>";
-            echo "<td>$item->telefone</td>";
-            echo "</tr>";
-        }
-    ?>
-  </tbody>
-</table>
 
 <?php
-  //  include "./paginas/rodape.inc.php";
+  include "./paginas/rodape.inc.php";
 ?>
 </body>
 </html>

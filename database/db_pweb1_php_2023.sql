@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 -- Copiando dados para a tabela db_aula_pweb1.aluno: ~6 rows (aproximadamente)
 INSERT INTO `aluno` (`id`, `nome`, `cpf`, `telefone`) VALUES
 	(1, 'Jackson', '1231230', '123123'),
-	(2, 'Aluno Teste', '55500055599', '49 8800-5500'),
+	(2, 'Aluno Teste', '55500055599', '49 8800-5500');
 

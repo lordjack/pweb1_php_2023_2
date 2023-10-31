@@ -1,44 +1,43 @@
 <?php
+ include './header.php';
  include '../db.class.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
 <?php
   $db = new DB();
   $db->conn();
 
-  if($_POST){
-    $dados = $db->insert("aluno",$_POST);
-    echo "<h4>Registro Salvo com sucesso!</h4>";
-    //var_dump($_POST);
+  if(!empty($_POST['id'])){
+    $db->update("aluno",$_POST);
+    header("location: AlunoList.php");
+
+  } else if($_POST){
+    $db->insert("aluno",$_POST);
+    header("location: AlunoList.php");
   }
 
+  if(!empty($_GET['id'])){
+    $aluno = $db->find("aluno", $_GET['id']);
+    //var_dump($aluno);
+  }
 ?>
-<body>
 
     <h3>Formulário Aluno</h3>
 
     <form action="AlunoForm.php" method="post">
-    
+        <input type="hidden" name="id" value="<?php echo !empty($aluno->id) ? $aluno->id :"" ?>">
+        
         <label for="nome">Nome</label><br>
-        <input type="text" name="nome"><br>
+        <input type="text" name="nome" value="<?php echo !empty($aluno->nome) ? $aluno->nome :"" ?>"><br>
 
         <label for="cpf">CPF</label><br>
-        <input type="text" name="cpf"><br>
+        <input type="text" name="cpf" value="<?php echo !empty($aluno->cpf) ? $aluno->cpf :"" ?>"><br>
 
         <label for="telefone">Telefone</label><br>
-        <input type="text" name="telefone"><br>
+        <input type="text" name="telefone"  value="<?php echo !empty($aluno->telefone) ? $aluno->telefone :"" ?>"><br>
 
-        <button type="submit">Salvar</button>
+        <button type="submit"><?php echo !empty($_GET['id']) ? "Editar" : "Salvar" ?></button>
         <a href="AlunoList.php"> Voltar </a>
 
     </form>
-</body>
-</html>
+<?php include "./footer.php" ?>

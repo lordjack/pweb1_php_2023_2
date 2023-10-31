@@ -1,9 +1,6 @@
 <?php
+ include './header.php';
  include '../db.class.php';
-
-//include "./paginas/cabecalho.inc.php";
-//include "./paginas/menu.inc.php";
-//include "./paginas/conteudo.inc.php";
 ?>
 
 <!DOCTYPE html>
@@ -54,8 +51,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">ID</th>
+      <th scope="col">#ID</th>
       <th scope="col">Nome</th>
       <th scope="col">CPF</th>
       <th scope="col">Telefone</th>
@@ -71,7 +67,7 @@
             echo "<td>$item->nome</td>";
             echo "<td>$item->cpf</td>";
             echo "<td>$item->telefone</td>";
-            echo "<td>Editar</td>";
+            echo "<td><a href='AlunoForm.php?id=$item->id'>Editar</a></td>";
             echo "<td><a onclick='return confirm(\"Deseja Excluir?\")'
                     href='AlunoList.php?id=$item->id'>Deletar</a>
                   </td>";
@@ -81,8 +77,4 @@
   </tbody>
 </table>
 
-<?php
-  //  include "./paginas/rodape.inc.php";
-?>
-</body>
-</html>
+<?php include "./footer.php" ?>

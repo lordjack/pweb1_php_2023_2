@@ -40,6 +40,18 @@ class DB
         return $st->fetchAll(PDO::FETCH_CLASS);
 
     }
+    //retorna um objeto de dados a partir de um ID
+    public function find($nome_tabela, $id){
+        
+        $conn = $this->conn();
+        $sql = "SELECT * FROM $nome_tabela WHERE id = ?";
+
+        $st = $conn->prepare($sql);
+        $st->execute([$id]);
+
+        return $st->fetchObject();
+
+    }
 
     public function insert($nome_tabela, $dados){
         
@@ -53,6 +65,22 @@ class DB
             $dados['nome'],
             $dados['cpf'],
             $dados['telefone'],
+        ]);
+    }
+
+    public function update($nome_tabela, $dados){
+        
+        $conn = $this->conn();
+        $sql = "UPDATE $nome_tabela SET nome=?, cpf=?, telefone=?
+                    WHERE id=? ";
+        
+        $st = $conn->prepare($sql);
+
+        $st->execute([
+            $dados['nome'],
+            $dados['cpf'],
+            $dados['telefone'],
+            $dados['id'],
         ]);
     }
 
