@@ -8,15 +8,26 @@
   $db->conn();
 
   if($_POST){
-    $db->insert("usuario",$_POST);
-    header("location: UsuarioList.php");
+
+    if($_POST['senha'] === $_POST['c_senha']){
+
+      $_POST['senha'] = password_hash($_POST['senha'],PASSWORD_BCRYPT);
+      unset($_POST['c_senha']);
+      
+      $db->insert("usuario",$_POST);
+      header("location: LoginForm.php");
+
+    } else{
+      echo "<b style='color:red;'>As senhas não conhecidem</b>";
+    }
+
   }
 
 ?>
     <h2>Sistema Academico</h2>
     <h3>Formulário Registrar Usuário</h3>
 
-    <form action="UsuarioForm.php" method="post">
+    <form action="RegistrarForm.php" method="post">
         <label for="nome">Nome</label><br>
         <input type="text" name="nome"><br>
 

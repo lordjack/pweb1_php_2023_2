@@ -55,6 +55,7 @@ class DB
 
     public function insert($nome_tabela, $dados){
         
+        unset($dados['id']);//remove esse indice do vetor
         $conn = $this->conn();
         $sql = "INSERT INTO $nome_tabela (";
         
@@ -62,7 +63,7 @@ class DB
         $vetorDados = [];
         foreach ($dados as $campo => $valor ){
             if($flag == 0){
-                $sql .= "$campo";
+                $sql .= " $campo";
             } else {
                 $sql .= ", $campo";
             }
@@ -70,6 +71,7 @@ class DB
         }
         $sql .= ") values (";
 
+        $flag = 0;
         foreach ($dados as $campo => $valor ){
             if($flag == 0){
                 $sql .= " ?";
@@ -80,6 +82,10 @@ class DB
             $vetorDados[] = $valor;
         }
         $sql .= ")";
+
+       // var_dump($sql);
+        //var_dump($vetorDados);
+       // exit;
 
         $st = $conn->prepare($sql);
 
@@ -126,6 +132,24 @@ class DB
         $st->execute(["%$valor%"]);
 
         return $st->fetchAll(PDO::FETCH_CLASS);
+    }
+
+    public function login($nome_tabela, $dados){
+        
+        $conn = $this->conn();
+        $sql = "SELECT * FROM $nome_tabela WHERE cpf = ?";
+
+        $st = $conn->prepare($sql);
+        $st->execute([$dados['cpf']]);
+
+        $result = $st->fetchObject();
+
+        if(password_verify($dados['senha'],$result->senha)){
+            return $result;
+        }else{
+            return "Error";
+        }
+
     }
 }
 
