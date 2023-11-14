@@ -56,16 +56,34 @@ class DB
     public function insert($nome_tabela, $dados){
         
         $conn = $this->conn();
-        $sql = "INSERT INTO $nome_tabela (nome, cpf, telefone) 
-                    values (?, ?, ? )";
+        $sql = "INSERT INTO $nome_tabela (";
+        
+        $flag = 0;
+        $vetorDados = [];
+        foreach ($dados as $campo => $valor ){
+            if($flag == 0){
+                $sql .= "$campo";
+            } else {
+                $sql .= ", $campo";
+            }
+            $flag = 1;
+        }
+        $sql .= ") values (";
+
+        foreach ($dados as $campo => $valor ){
+            if($flag == 0){
+                $sql .= " ?";
+            } else {
+                $sql .= ", ?";
+            }
+            $flag = 1;
+            $vetorDados[] = $valor;
+        }
+        $sql .= ")";
 
         $st = $conn->prepare($sql);
 
-        $st->execute([
-            $dados['nome'],
-            $dados['cpf'],
-            $dados['telefone'],
-        ]);
+        $st->execute($vetorDados);
     }
 
     public function update($nome_tabela, $dados){
