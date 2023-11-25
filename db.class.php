@@ -94,18 +94,22 @@ class DB
 
     public function update($nome_tabela, $dados){
         
+        $id = $dados['id'];
         $conn = $this->conn();
-        $sql = "UPDATE $nome_tabela SET nome=?, cpf=?, telefone=?
-                    WHERE id=? ";
-        
-        $st = $conn->prepare($sql);
+        $sql = "UPDATE $nome_tabela SET ";
+        $flag = 0;
+        $arrayDados = [];
+        foreach ($dados as $campo => $valor) {
+            $sql .= $flag == 0 ? " $campo=? " : ", $campo=? ";
 
-        $st->execute([
-            $dados['nome'],
-            $dados['cpf'],
-            $dados['telefone'],
-            $dados['id'],
-        ]);
+            $flag = 1;
+            $arrayDados[] = $valor;
+        }
+
+        $sql .= " WHERE id = $id ";
+
+        $st = $conn->prepare($sql);
+        $st->execute($arrayDados);
     }
 
     public function destroy($nome_tabela, $id){
